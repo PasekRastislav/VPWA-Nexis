@@ -31,8 +31,8 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
     boot: [
-
-      'axios'
+      'axios',
+      'auth'
     ],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
@@ -53,11 +53,13 @@ module.exports = configure(function (ctx) {
       'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
-
+    sourceFiles: { store: 'src/store/index.ts' },
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash' // available values: 'hash', 'history'
-
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+      env: {
+        API_URL: process.env.API_URL || (ctx.dev ? 'http://localhost:3333' : 'https://prod.api.com')
+      },
       // transpile: false,
       // publicPath: '/',
 

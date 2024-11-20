@@ -1,14 +1,12 @@
-import { store } from 'quasar/wrappers'
-import { InjectionKey } from 'vue'
-import { Router } from 'vue-router'
-import {
-  createStore,
-  Store as VuexStore,
-  useStore as vuexUseStore
-} from 'vuex'
+import {store} from 'quasar/wrappers'
+import {InjectionKey} from 'vue'
+import {Router} from 'vue-router'
+import {createStore, Store as VuexStore, useStore as vuexUseStore} from 'vuex'
+import auth from './module-auth'
+import type {AuthStateInterface} from './module-auth/state'
 
-// import example from './module-example'
-// import { ExampleStateInterface } from './module-example/state';
+// import example from './module-auth'
+// import { ExampleStateInterface } from './module-auth/state';
 
 /*
  * If not building with SSR mode, you can
@@ -20,10 +18,7 @@ import {
  */
 
 export interface StateInterface {
-  // Define your own store structure, using submodules if needed
-  // example: ExampleStateInterface;
-  // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  example: unknown
+  auth: AuthStateInterface
 }
 
 // provide typings for `this.$store`
@@ -45,17 +40,15 @@ declare module 'vuex' {
 }
 
 export default store(function (/* { ssrContext } */) {
-  const Store = createStore<StateInterface>({
+  return createStore<StateInterface>({
     modules: {
-      // example
+      auth
     },
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only
     strict: !!process.env.DEBUGGING
   })
-
-  return Store
 })
 
 export function useStore () {
